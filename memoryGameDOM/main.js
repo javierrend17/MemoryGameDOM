@@ -5,6 +5,7 @@ function validateAndLogin() {
     if (username.trim() === '' || password.trim() === '') {
       alert('Por favor, completa ambos campos.');
     } else {
-      alert('Inicio de sesión exitoso');
+      // Ambos campos están llenos, redirigir a otra página
+      window.location.href = 'index.html';
     }
   }
