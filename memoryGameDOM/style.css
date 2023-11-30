@@ -2,6 +2,7 @@
 
 *{
   box-sizing: border-box;
+  padding: 0;
   margin: 0;
   font-family: 'Poppins', sans-serif;
   color: white;
@@ -11,7 +12,7 @@ body{
   background: linear-gradient(to top, rgb(0, 218, 131) 0%, rgba(48,0,255,1) 100%);
 }
 
-.container{
+.contenedor{
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -59,4 +60,12 @@ body{
 
 .control button:hover{
   background-color: rgba(255, 255, 255, 0.326);
+}
+
+.titulogin{
+  color: black;
+}
+
+.letralogin{
+  color: black;
 }
