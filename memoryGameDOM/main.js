@@ -12,20 +12,17 @@ function validateAndLogin() {
 
 
 
-
-
+//Inserta las cartas en el DOM y crea un nuevo array mezclado
+//usando emojis[]
 function empezarJuego(){
-
-
 
     const emojis = ["🍉","🍉","🥭","🥭","🍐","🍐","🍌","🍌","🍇","🍇","🍑","🍑","🍒","🍒","🥥","🥥",]
     //var emojis_mezclados = emojis.sort(() => (Math.random() > .5) ? 2 : -1)
 
+    //Algoritmo para mezclar los emojis
     function mezclarEmojis() {
-        // Crear una copia del array original
         emojis_mezclados = emojis.slice();
         
-        // Aplicar el algoritmo de mezcla Fisher-Yates
         for (let i = emojis_mezclados.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [emojis_mezclados[i], emojis_mezclados[j]] = [emojis_mezclados[j], emojis_mezclados[i]];
@@ -41,12 +38,13 @@ function empezarJuego(){
                 <p>Tiempo:</p>
             </div>
         </div>
-        <div class="container">
+        <div class="contenedor">
             <div class="juego"></div>
         </div>
     `
     mezclarEmojis()
 
+    //Inserta las cartas en pantalla
     const juegoElement = document.querySelector('.juego');
 
     for (let i = 0; i < emojis.length; i++) {
@@ -58,21 +56,22 @@ function empezarJuego(){
         <input type="checkbox" id="check${i}" class="check">
         <label for="check${i}" class="label">${emojis_mezclados[i]}</label>
         `;
-
         juegoElement.appendChild(nuevaCarta);
 
     }    
 
     var reiniciarBtn = document.getElementById('reiniciar');
 
+    //Oculta todas las cartas con una animacion y
+    //las vuelve a mezclar.
     reiniciarBtn.addEventListener('click', () => {
         ocultarCartas().then(() => {
-            setTimeout(empezarJuego, 1000); // Agrega un tiempo de espera adicional de 1000 milisegundos
+            setTimeout(empezarJuego, 250);
         });
     });
 
+    //Oculta las cartas con una animacion
     function ocultarCartas() {
-        // Devuelve una promesa que se resuelve cuando todas las cartas se han ocultado
         return new Promise(resolve => {
             let cartasOcultas = 0;
 
@@ -83,7 +82,6 @@ function empezarJuego(){
 
                     cartasOcultas++;
 
-                    // Si todas las cartas se han ocultado, resuelve la promesa
                     if (cartasOcultas === emojis.length) {
                         resolve();
                     }
