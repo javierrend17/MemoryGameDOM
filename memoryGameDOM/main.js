@@ -11,7 +11,7 @@ function validateAndLogin() {
     }
 }
 
-
+validateAndLogin()
 
 //Inserta las los elementos del juego en el dom
 function empezarJuego(){
@@ -34,7 +34,8 @@ function empezarJuego(){
         <div class="control">
             <button id="reiniciar">Reiniciar juego</button>
             <div class="info">
-                <p id="movimientos">Movimientos:</p>
+                <p>Movimientos:</p>
+                <p id="movimientos"></p>
             </div>
         </div>
         <div class="contenedor">
@@ -103,7 +104,7 @@ function empezarJuego(){
         
         if (event.target.tagName === 'INPUT') {
             contador++
-            referenciaMovimientos.innerHTML = `Movimientos: ${contador}`
+            referenciaMovimientos.innerHTML = `${contador}`
             var label = document.querySelector(`label[for=${event.target.id}]`);
             var contenidoLabel = label.textContent;
             console.log(contenidoLabel);
@@ -177,7 +178,6 @@ function empezarJuego(){
                 var miInput = document.getElementById(`check${i}`);    
                 miInput.disabled = true;
             }
-            
         }
     }); 
 }
