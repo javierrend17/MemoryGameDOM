@@ -6,6 +6,6 @@ function validateAndLogin() {
       alert('Por favor, completa ambos campos.');
     } else {
       // Ambos campos están llenos, redirigir a otra página
-      window.location.href = 'index.html';
+      window.location.href = 'game.html';
     }
 }
