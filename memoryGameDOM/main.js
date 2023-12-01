@@ -1,3 +1,4 @@
+
 function validateAndLogin() {
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
@@ -6,18 +7,17 @@ function validateAndLogin() {
       alert('Por favor, completa ambos campos.');
     } else {
       // Ambos campos están llenos, redirigir a otra página
-      window.location.href = 'index.html';
+      empezarJuego()
     }
 }
 
 
 
-//Inserta las cartas en el DOM y crea un nuevo array mezclado
-//usando emojis[]
+//Inserta las los elementos del juego en el dom
 function empezarJuego(){
 
     const emojis = ["🍉","🍉","🥭","🥭","🍐","🍐","🍌","🍌","🍇","🍇","🍑","🍑","🍒","🍒","🥥","🥥",]
-    //var emojis_mezclados = emojis.sort(() => (Math.random() > .5) ? 2 : -1)
+    /*Otra forma de mezclar que funciona: var emojis_mezclados = emojis.sort(() => (Math.random() > .5) ? 2 : -1)*/
 
     //Algoritmo para mezclar los emojis
     function mezclarEmojis() {
@@ -34,8 +34,7 @@ function empezarJuego(){
         <div class="control">
             <button id="reiniciar">Reiniciar juego</button>
             <div class="info">
-                <p>Movimientos:</p>
-                <p>Tiempo:</p>
+                <p id="movimientos">Movimientos:</p>
             </div>
         </div>
         <div class="contenedor">
@@ -69,8 +68,7 @@ function empezarJuego(){
             setTimeout(empezarJuego, 250);
         });
     });
-
-    //Oculta las cartas con una animacion
+    
     function ocultarCartas() {
         return new Promise(resolve => {
             let cartasOcultas = 0;
@@ -86,7 +84,7 @@ function empezarJuego(){
                         resolve();
                     }
                     
-                }, i * 25);
+                }, i * 35);
             }
 
             for (let i = 0; i < emojis.length; i++) {
@@ -94,9 +92,98 @@ function empezarJuego(){
             }
         });
     }
+
+    //const juegoElement = document.querySelector('.juego');
+    var comparando = []
+    var recuerdo = []
+    var listaEncontrados = []
+    var contador = 0
+    var referenciaMovimientos = document.querySelector("#movimientos")
+    juegoElement.addEventListener('click', function(event) {
+        
+        if (event.target.tagName === 'INPUT') {
+            contador++
+            referenciaMovimientos.innerHTML = `Movimientos: ${contador}`
+            var label = document.querySelector(`label[for=${event.target.id}]`);
+            var contenidoLabel = label.textContent;
+            console.log(contenidoLabel);
+            if (event.target.checked === true) {
+                comparando.push(contenidoLabel)
+
+            }
+
+            if (comparando.length === 1 || comparando.length === 2){
+                recuerdo.push(event.target.id)
+                console.log("Este es un recuerdo de referencia: " + recuerdo);
+            }
+
+            
+            if (comparando.length === 1) {
+                console.log(recuerdo[0]);
+                document.querySelector(`#${recuerdo[0]}`).disabled = true;
+            }else if (comparando.length === 2){
+                document.querySelector(`#${recuerdo[0]}`).disabled = false;
+            }
+
+            if(comparando.length === 2){
+                console.log("Has revelado 2 cartas");
+                if (comparando[0] === comparando[1]) {
+                    console.log("Has descubierto una pareja");
+                    //Esto hace que las cartas reveladas no se puedan volver a ocultar
+                    document.querySelector(`#${recuerdo[0]}`).disabled = true;
+                    document.querySelector(`#${recuerdo[1]}`).disabled = true;
+                    listaEncontrados.push([recuerdo[0],recuerdo[1]])
+                    comparando = []
+                    recuerdo = []
+                    console.log("Hasta ahora has encontrado estas: "+listaEncontrados);
+                }else{
+                    console.log("No le acertaste, borrare los recuerdos y las comparaciones y ocultare de nuevo las cartas");
+                    for (let i = 0; i < emojis.length; i++) {
+                        //esto corrige el bug que se puedan revelar mas de 2 elementos durante 1 turno
+                        var miInput = document.getElementById(`check${i}`);
+                        if(miInput.checked === false){
+                            miInput.disabled = true;
+                        }
+                    }
+
+                    //Esto hace que las cartas se queden reveladas durante 0.8 segundos antes de volverse a ocultar
+                    setTimeout(()=>{
+                        var referencia1 = document.getElementById(recuerdo[0]);
+                        referencia1.checked = false;
+                        var referencia2 = document.getElementById(recuerdo[1]);
+                        referencia2.checked = false;
+                        comparando = []
+                        recuerdo = []
+                        habilitarCartas()   
+                    },800);
+
+                    function habilitarCartas() {
+                        for (let i = 0; i < emojis.length; i++) {
+                            //esto vuelve a habilitar las casillas una vez ocultas las parejas erroneas
+                            var miInput = document.getElementById(`check${i}`);
+                            if (!listaEncontrados.includes(miInput)) {
+                                miInput.disabled = false;    
+                            }
+                        }
+                    }
+                }
+            }
+            console.log(comparando);
+        }
+        console.log(listaEncontrados.length);
+        if (listaEncontrados.length === 8) {
+            console.log("Has ganado!!");
+            for (let i = 0; i < emojis.length; i++) {
+                var miInput = document.getElementById(`check${i}`);    
+                miInput.disabled = true;
+            }
+            
+        }
+    }); 
 }
 
-empezarJuego()
+
+
 
 
 
