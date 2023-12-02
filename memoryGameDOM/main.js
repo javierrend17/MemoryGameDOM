@@ -2,16 +2,32 @@
 function validateAndLogin() {
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
-  
+    
     if (username.trim() === '' || password.trim() === '') {
-      alert('Por favor, completa ambos campos.');
+        alert('Por favor, completa ambos campos.');
     } else {
-      // Ambos campos están llenos, redirigir a otra página
-      empezarJuego()
-    }
+        empezarJuego()
+    } 
+
+    return usuario
 }
 
-validateAndLogin()
+var refloginButton = document.querySelector('#loginButton')
+
+refloginButton.addEventListener('click', validateAndLogin)
+
+
+
+
+
+
+//=============================================================================================================================
+
+
+
+
+
+
 
 //Inserta las los elementos del juego en el dom
 function empezarJuego(){
@@ -30,9 +46,10 @@ function empezarJuego(){
     }
 
     var bodyElement = document.body;
-    bodyElement.innerHTML = `
+    bodyElement.innerHTML =`
         <div class="control">
             <button id="reiniciar">Reiniciar juego</button>
+            <p>${""}</p>
             <div class="info">
                 <p>Movimientos:</p>
                 <p id="movimientos"></p>
