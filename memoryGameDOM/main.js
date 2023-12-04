@@ -49,7 +49,7 @@ function empezarJuego(){
     bodyElement.innerHTML =`
         <div class="control">
             <button id="reiniciar">Reiniciar juego</button>
-            <p>${""}</p>
+            <p>${username.value}</p>
             <div class="info">
                 <p>Movimientos:</p>
                 <p id="movimientos"></p>
