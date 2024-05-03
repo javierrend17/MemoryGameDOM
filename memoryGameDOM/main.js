@@ -1,6 +1,7 @@
+var username = "";
 
 function validateAndLogin() {
-    var username = document.getElementById('username').value;
+    username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
     
     if (username.trim() === '' || password.trim() === '') {
@@ -9,7 +10,6 @@ function validateAndLogin() {
         empezarJuego()
     } 
 
-    return usuario
 }
 
 var refloginButton = document.querySelector('#loginButton')
@@ -17,27 +17,18 @@ var refloginButton = document.querySelector('#loginButton')
 refloginButton.addEventListener('click', validateAndLogin)
 
 
-
-
-
-
 //=============================================================================================================================
-
-
-
-
-
 
 
 //Inserta las los elementos del juego en el dom
 function empezarJuego(){
 
     const emojis = ["🍉","🍉","🥭","🥭","🍐","🍐","🍌","🍌","🍇","🍇","🍑","🍑","🍒","🍒","🥥","🥥",]
+    let emojis_mezclados = emojis.slice();
     /*Otra forma de mezclar que funciona: var emojis_mezclados = emojis.sort(() => (Math.random() > .5) ? 2 : -1)*/
 
     //Algoritmo para mezclar los emojis
     function mezclarEmojis() {
-        emojis_mezclados = emojis.slice();
         
         for (let i = emojis_mezclados.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -49,7 +40,7 @@ function empezarJuego(){
     bodyElement.innerHTML =`
         <div class="control">
             <button id="reiniciar">Reiniciar juego</button>
-            <p>${username.value}</p>
+            <p>${username}</p>
             <div class="info">
                 <p>Movimientos:</p>
                 <p id="movimientos"></p>
@@ -57,6 +48,16 @@ function empezarJuego(){
         </div>
         <div class="contenedor">
             <div class="juego"></div>
+        </div>
+
+        <div id="alerta" class="alerta">
+            <img src="https://cdn3.iconfinder.com/data/icons/object-emoji/50/Celebration-512.png" alt="imagen de celebracion">
+            <p class="felicidades">¡Felicidades, has ganado!</p>
+            <div class="countMovimientos">
+                <p>Movimientos:</p>
+                <p id="jugadas"></p>
+            </div>
+            <button class="deNuevo">Jugar de nuevo</button>
         </div>
     `
     mezclarEmojis()
@@ -84,11 +85,15 @@ function empezarJuego(){
     reiniciarBtn.addEventListener('click', () => {
         ocultarCartas().then(() => {
             setTimeout(empezarJuego, 250);
+            
         });
+        mezclarEmojis()
+
     });
     
     function ocultarCartas() {
         return new Promise(resolve => {
+            
             let cartasOcultas = 0;
 
             function ocultarCartaConRetraso(i) {
@@ -117,6 +122,7 @@ function empezarJuego(){
     var listaEncontrados = []
     var contador = 0
     var referenciaMovimientos = document.querySelector("#movimientos")
+
     juegoElement.addEventListener('click', function(event) {
         
         if (event.target.tagName === 'INPUT') {
@@ -191,11 +197,45 @@ function empezarJuego(){
         console.log(listaEncontrados.length);
         if (listaEncontrados.length === 8) {
             console.log("Has ganado!!");
+            var jugadas = document.getElementById('jugadas');
+            jugadas.innerHTML = contador;
+            contador = 0
+            comparando = []
+            recuerdo = []
+            listaEncontrados = []
+            
+
+            var divAlerta = document.getElementById('alerta');
+            divAlerta.classList.add("mostrarAlerta");
+
             for (let i = 0; i < emojis.length; i++) {
                 var miInput = document.getElementById(`check${i}`);    
                 miInput.disabled = true;
             }
+
+            var jugarDeNuevo = document.querySelector('.deNuevo');
+
+            jugarDeNuevo.addEventListener('click', () => {
+                divAlerta.classList.remove("mostrarAlerta");
+                ocultarCartas().then(() => {
+                    setTimeout(empezarJuego, 250);
+                });
+            });
+
+            for (let i = 0; i < emojis.length; i++) {
+                //esto vuelve a habilitar las casillas
+                var miInput = document.getElementById(`check${i}`);
+                miInput.disabled = false;    
+
+            }
+
+            
+
+            mezclarEmojis()
+
         }
+
+        console.log(`Llevas ${contador} movimientos!`);
     }); 
 }
 

@@ -16,6 +16,12 @@ body{
   align-items: center;
   padding: 10px;
   
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 500; 
 }
 
 .control{
@@ -92,7 +98,6 @@ body{
   flex-direction:row;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
 }
 
 .reiniciar{
@@ -147,3 +152,63 @@ body{
   margin: 5px;
   background-color: rgba(255, 255, 255, 0);
 }
+
+/* ========================= Alerta ============================ */
+
+.alerta{
+  background-color: white;
+  width: 350px;
+  
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  
+  z-index: -9999; 
+  
+  padding: 50px;
+  border-radius: 20px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  opacity: 0;
+  
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.29);
+}
+
+.alerta .felicidades{
+  color: green;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.alerta img{
+  width: 100px;
+}
+
+.alerta button{
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(56, 170, 211);
+  color: white;
+  padding: 8px 20px 9px 20px;
+  font-weight: 700;
+}
+
+.mostrarAlerta{
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  z-index: 9999; 
+}
+
+.countMovimientos{
+  display: flex;
+  gap: 8px;
+  font-weight: 600;
+} 
